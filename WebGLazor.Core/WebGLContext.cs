@@ -22,10 +22,14 @@ namespace WebGLazor
         /// Initialize the WebGL 2.0 context for the specified canvas element.
         /// </summary>
         /// <param name="canvasId">The HTML id attribute of the canvas element.</param>
+        /// <param name="baseUri">The base URI to load the WebGLazor JavaScript library from.</param>
         /// <exception cref="Exception">Thrown if WebGL 2.0 initialization fails.</exception>
-        public async Task InitializeAsync(string canvasId)
+        public async Task InitializeAsync(string canvasId, string baseUri)
         {
-            await JSHost.ImportAsync("webglazor", "/_content/WebGLazor/webglazor.js");
+            string libraryPath = "_content/WebGLazor/webglazor.js";
+            string fullModuleUrl = $"{baseUri}{libraryPath}";
+
+            await JSHost.ImportAsync("webglazor", fullModuleUrl);
             _contextId = WebGL2.InitWebGL(canvasId);
             if (_contextId == 0)
             {

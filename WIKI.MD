@@ -162,6 +162,7 @@ Initialize WebGL 2.0 context for a canvas element.
 | Type | Name | Description |
 |------|------|-------------|
 | `string` | `canvasId` | HTML canvas element ID |
+| `string` | `baseUri` | The base URI to load the WebGLazor JavaScript library from |
 
 #### MakeCurrent
 Set this context as active for subsequent operations.

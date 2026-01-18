@@ -2,6 +2,7 @@
 @using WebGLazor
 @namespace WebGLazor
 @implements IAsyncDisposable
+@inject NavigationManager NavManager
 
 <canvas @ref="CanvasRef"
         id="@Id"
@@ -202,7 +203,7 @@
         if (firstRender)
         {
             Context = new WebGLContext();
-            await Context.InitializeAsync(Id);
+            await Context.InitializeAsync(Id, NavManager.BaseUri);
             await OnContextCreated.InvokeAsync(Context);
         }
     }

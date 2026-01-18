@@ -330,7 +330,10 @@ public partial class ApiReference
     [
         new("Context & Lifecycle", [
             new("InitializeAsync", "Initialize WebGL 2.0 context for a canvas element", "Task", MdnRef("HTMLCanvasElement/getContext"),
-                "Context", [new("string", "canvasId", "HTML canvas element ID")]),
+                "Context", [
+                    new("string", "canvasId", "HTML canvas element ID"), 
+                    new("string", "baseUri", "The base URI to load the WebGLazor JavaScript library from")
+                    ]),
             new("MakeCurrent", "Set this context as active for subsequent operations", "", MdnRef("WebGLRenderingContext"),
                 "Context", []),
             new("Dispose", "Release all WebGL resources and clean up", "", MdnRef("WEBGL_lose_context/loseContext"),

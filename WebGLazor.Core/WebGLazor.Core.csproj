@@ -15,9 +15,9 @@
 
 		<NoWarn>$(NoWarn);CA1416</NoWarn>
 
-		<Version>1.0.0</Version>
-		<AssemblyVersion>1.0.0.0</AssemblyVersion>
-		<FileVersion>1.0.0.0</FileVersion>
+		<Version>1.0.1</Version>
+		<AssemblyVersion>1.0.1.0</AssemblyVersion>
+		<FileVersion>1.0.1.0</FileVersion>
 		
 		<PackageId>WebGLazor</PackageId>
 		<Title>WebGLazor</Title>
@@ -32,7 +32,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>
 		<RepositoryType>git</RepositoryType>
-		<PackageReleaseNotes>Initial release</PackageReleaseNotes>
+		<PackageReleaseNotes>Updated library initialization logic in `WebGLContext`. The path to `webglazor.js` is now generated dynamically using `NavigationManager.BaseUri`. This allows the library to automatically detect the correct application base address, making it more flexible for different hosting scenarios.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
