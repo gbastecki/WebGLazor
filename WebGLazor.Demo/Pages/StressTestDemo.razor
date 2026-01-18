@@ -1,0 +1,43 @@
+﻿@page "/stress-test"
+
+<PageTitle>WebGLazor - Performance Stress Test</PageTitle>
+
+<div class="page-container" style="max-width: 100%;">
+    <div class="page-header">
+        <h1 class="page-title">Instanced Rendering Stress Test</h1>
+        <p class="page-subtitle">Renders up to 1 million objects using WebGL 2.0 Instancing.</p>
+    </div>
+
+    <div class="card">
+        <div class="demo-controls-row" style="justify-content: space-between;">
+            <div class="demo-controls-inline">
+                <label class="demo-control-label" style="margin-bottom: 0; margin-right: 0.5rem;">Object Count:</label>
+                <input type="range" min="1000" max="1000000" step="1000" @bind="_objectCount" @bind:event="oninput" @bind:culture="CultureInfo.InvariantCulture" @onchange="OnCountChanged" style="width: 200px;" />
+                <span class="demo-slider-value">@_objectCount.ToString("N0")</span>
+            </div>
+            
+            <div class="demo-fps-display">
+                FPS: @_fps.ToString("F0")
+            </div>
+            
+            <div>
+                <button class="btn @(_isAnimating ? "btn-secondary" : "btn-primary")" @onclick="ToggleAnimation">
+                    @(_isAnimating ? "Stop" : "Restart")
+                </button>
+            </div>
+        </div>
+    
+        <div class="demo-canvas-wrapper demo-canvas-dark" style="height: 600px;">
+            <WebGLCanvas @ref="_canvas"
+                         Id="stress-canvas"
+                         Width="1200"
+                         Height="600"
+                         OnContextCreated="OnContextCreated" />
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-title">Source Code</div>
+        <CodeSnippetComponent Language="C#" Code="@_codeSnippet" />
+    </div>
+</div>

@@ -1,0 +1,58 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@implements IDisposable
+
+<div class="app-container">
+    <!-- Mobile overlay -->
+    <div class="sidebar-overlay @(isSidebarOpen ? "open" : "")" @onclick="CloseSidebar"></div>
+    
+    <!-- Hamburger menu button (mobile only) -->
+    <button class="hamburger-btn" @onclick="ToggleSidebar" aria-label="Toggle navigation">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+    </button>
+    
+    <aside class="sidebar @(isSidebarOpen ? "open" : "")">
+        <NavMenu />
+    </aside>
+    <main class="main-content">
+        <div class="page-container">
+            @Body
+        </div>
+    </main>
+</div>
+
+@code {
+    private bool isSidebarOpen = false;
+
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void ToggleSidebar()
+    {
+        isSidebarOpen = !isSidebarOpen;
+    }
+
+    private void CloseSidebar()
+    {
+        isSidebarOpen = false;
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        // Auto-close sidebar on navigation (for mobile UX)
+        if (isSidebarOpen)
+        {
+            isSidebarOpen = false;
+            StateHasChanged();
+        }
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}

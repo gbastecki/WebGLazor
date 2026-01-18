@@ -1,0 +1,164 @@
+﻿@page "/api-reference"
+
+<PageTitle>WebGLazor - API Reference</PageTitle>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1 class="page-title">API Reference</h1>
+        <p class="page-subtitle">
+            Complete API reference with parameter details and source documentation links.
+        </p>
+    </div>
+
+    @* Tab Navigation *@
+    <div class="api-tabs">
+        <button class="api-tab @GetTabClass("webgl")" @onclick="@(() => SetActiveTab("webgl"))">
+            WebGL 2.0 API
+        </button>
+        <button class="api-tab @GetTabClass("component")" @onclick="@(() => SetActiveTab("component"))">
+            WebGLCanvas Component
+        </button>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" @bind="_searchQuery" @bind:event="oninput"
+               placeholder="@(_activeTab == "webgl" ? "Search methods..." : "Search parameters...")" class="form-control" />
+        @if (_activeTab == "webgl")
+        {
+            <label>
+                <input type="checkbox" @bind="_groupByCategory" />
+                Group by category
+            </label>
+        }
+    </div>
+
+    @if (_activeTab == "component")
+    {
+        @* WebGLCanvas Component Section *@
+        <div class="component-section">
+            <div class="component-header">
+                <div class="component-badge">Blazor Component</div>
+                <h2 class="component-title">&lt;WebGLCanvas /&gt;</h2>
+                <p class="component-description">
+                    A Blazor component that wraps an HTML canvas element with WebGL 2.0 context initialization.
+                    Provides comprehensive event handling and supports unmatched HTML attributes.
+                </p>
+            </div>
+
+            @foreach (var group in _canvasParamGroups.Where(g => MatchesComponentSearch(g)))
+            {
+                <div class="component-param-group">
+                    <h3 class="component-group-title">@group.Name</h3>
+                    @if (!string.IsNullOrEmpty(group.Description))
+                    {
+                        <p class="component-group-desc">@group.Description</p>
+                    }
+                    <div class="component-params-table">
+                        <div class="component-params-header">
+                            <span>Type</span>
+                            <span>Parameter</span>
+                            <span>Default</span>
+                            <span>Description</span>
+                        </div>
+                        @foreach (var param in group.Parameters)
+                        {
+                            <div class="component-param-row">
+                                <code class="component-param-type">@param.Type</code>
+                                <code class="component-param-name">@param.Name</code>
+                                <code class="component-param-default">@param.DefaultValue</code>
+                                <span class="component-param-desc">@param.Description</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="component-note">
+                <strong>Unmatched Attributes:</strong> Any HTML attributes not explicitly defined as parameters
+                (e.g., <code>class</code>, <code>tabindex</code>, <code>data-*</code>) are captured via
+                <code>AdditionalAttributes</code> and passed directly to the underlying <code>&lt;canvas&gt;</code> element.
+            </div>
+        </div>
+    }
+    else
+    {
+        @* WebGL 2.0 API Methods *@
+        @if (_groupByCategory)
+        {
+            @foreach (var category in GetFilteredCategories())
+            {
+                <div class="api-category">
+                    <h2 class="api-category-title">@category.Name</h2>
+                    @foreach (var method in category.Methods.Where(m => MatchesSearch(m)))
+                    {
+                        @RenderMethodCard(method, null)
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            @foreach (var method in GetAllMethodsAlphabetically())
+            {
+                @RenderMethodCard(method, method.Category)
+            }
+        }
+    }
+</div>
+
+@code {
+    private RenderFragment RenderMethodCard(ApiMethod method, string? categoryBadge) => __builder =>
+    {
+        <div class="api-method-card">
+            <div class="api-method-header">
+                <code class="api-method-name">@method.Name</code>
+                @if (!string.IsNullOrEmpty(categoryBadge))
+                {
+                    <span class="api-category-badge">@categoryBadge</span>
+                }
+                @if (!string.IsNullOrEmpty(method.ReturnType))
+                {
+                    <span class="api-return-type">→ @method.ReturnType</span>
+                }
+                <a href="@method.ReferenceUrl" target="_blank" class="api-docs-btn" title="View MDN Documentation">
+                    MDN Docs
+                </a>
+            </div>
+            <p class="api-description">@method.Description</p>
+            @if (method.Parameters.Any())
+            {
+                <div class="api-params-table">
+                    <div class="api-params-header">
+                        <span>Type</span>
+                        <span>Name</span>
+                        <span>Description</span>
+                    </div>
+                    @foreach (var param in method.Parameters)
+                    {
+                        <div class="api-param-row">
+                            <code class="api-param-type">@param.Type</code>
+                            <code class="api-param-name">@param.Name</code>
+                            <span class="api-param-desc">@param.Description</span>
+                        </div>
+                        @if (param.ConstGroup != null && _constGroups.TryGetValue(param.ConstGroup, out var consts))
+                        {
+                            <div class="api-consts-row">
+                                <div class="api-consts-label">Available values:</div>
+                                <div class="api-consts-list">
+                                    @foreach (var c in consts)
+                                    {
+                                        <div class="api-const-item">
+                                            <code>@c.Name</code>
+                                            <span class="api-const-value">@c.Value</span>
+                                            <span class="api-const-desc">@c.Description</span>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+        </div>
+    };
+}

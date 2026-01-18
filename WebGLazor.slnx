@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/workflows/">
+    <File Path=".github/workflows/build.yml" />
+    <File Path=".github/workflows/setup_gh_pages.yml" />
+  </Folder>
+  <Folder Name="/repo/">
+    <File Path="NOTICE" />
+    <File Path="README.md" />
+    <File Path="WIKI.MD" />
+    <File Path="CHANGELOG.MD" />
+	<File Path="LICENSE" />
+  </Folder>
+  <Project Path="WebGLazor.Core/WebGLazor.Core.csproj" Id="ee10600b-e6cb-486c-b8c7-202aab0b9a63" />
+  <Project Path="WebGLazor.Demo/WebGLazor.Demo.csproj" Id="bf7381b1-9b2d-41c4-af9f-20b6336787be" />
+</Solution>

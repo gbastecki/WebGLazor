@@ -1,0 +1,219 @@
+﻿/* Component styles - Cards, buttons, code blocks, forms */
+
+/* Cards */
+.card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text);
+}
+
+/* Feature Grid */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.feature-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    transition: all 0.2s ease;
+}
+
+    .feature-card:hover {
+        box-shadow: var(--shadow-md);
+        border-color: var(--color-primary);
+        transform: translateY(-2px);
+    }
+
+.feature-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-md);
+    font-size: 1.25rem;
+}
+
+.feature-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+}
+
+.feature-description {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    color: white;
+}
+
+    .btn-primary:hover {
+        background: var(--color-primary-hover);
+    }
+
+.btn-secondary {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+}
+
+    .btn-secondary:hover {
+        background: var(--color-bg);
+    }
+
+/* Code Block */
+.code-block {
+    background: var(--color-code-bg);
+    border: 1px solid var(--color-code-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.code-language {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+}
+
+.code-copy-btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: all 0.15s ease;
+}
+
+    .code-copy-btn:hover {
+        background: var(--color-surface);
+        color: var(--color-text);
+    }
+
+.code-content {
+    padding: var(--spacing-md);
+    overflow-x: auto;
+}
+
+    .code-content pre {
+        margin: 0;
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        line-height: 1.6;
+    }
+
+    .code-content code {
+        font-family: var(--font-mono);
+    }
+
+/* Syntax Highlighting */
+.keyword {
+    color: #8b5cf6;
+}
+
+.string {
+    color: #10b981;
+}
+
+.number {
+    color: #f59e0b;
+}
+
+.comment {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.function {
+    color: #3b82f6;
+}
+
+.type {
+    color: #ec4899;
+}
+
+/* Form Controls */
+.form-control {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+    .form-control:focus {
+        border-color: var(--color-primary);
+    }
+
+/* Error UI */
+#blazor-error-ui {
+    background: #fee2e2;
+    color: #991b1b;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
+    display: none;
+    left: 0;
+    padding: var(--spacing-md) var(--spacing-lg);
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    border-top: 1px solid #fecaca;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: var(--spacing-lg);
+        top: var(--spacing-md);
+    }

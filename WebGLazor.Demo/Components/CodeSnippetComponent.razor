@@ -1,0 +1,186 @@
+﻿@namespace WebGLazor.Demo.Components
+
+<div class="code-block">
+    <div class="code-header">
+        <span class="code-language">@Language</span>
+        <button class="code-copy-btn" @onclick="CopyToClipboard">@_copyButtonText</button>
+    </div>
+    <div class="code-content">
+        <pre><code>@((MarkupString)HighlightedCode)</code></pre>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Code { get; set; } = "";
+    [Parameter] public string Language { get; set; } = "C#";
+
+    [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
+
+    private string _copyButtonText = "Copy";
+
+    private string HighlightedCode => ApplySyntaxHighlighting(Code.Trim());
+
+    private string ApplySyntaxHighlighting(string code)
+    {
+        if (string.IsNullOrEmpty(code)) return code;
+
+        code = System.Web.HttpUtility.HtmlEncode(code);
+
+        if (Language.Equals("C#", StringComparison.OrdinalIgnoreCase))
+        {
+            return HighlightCSharp(code);
+        }
+
+        if (Language.Equals("GLSL", StringComparison.OrdinalIgnoreCase))
+        {
+            return HighlightGLSL(code);
+        }
+
+        return code;
+    }
+
+    private static string HighlightCSharp(string code)
+    {
+        string[] keywords = new[] 
+        {
+            "using", "namespace", "class", "public", "private", "protected", "internal",
+            "static", "void", "async", "await", "return", "new", "var", "const", "readonly",
+            "if", "else", "for", "foreach", "while", "do", "switch", "case", "break", "continue",
+            "true", "false", "null", "this", "base", "override", "virtual", "abstract", "sealed",
+            "int", "float", "double", "string", "bool", "byte", "char", "long", "short", "uint",
+            "partial", "get", "set", "in", "out", "ref", "params", "typeof", "sizeof", "nameof"
+        };
+
+        string[] types = new[]
+        {
+            "WebGLContext", "WebGLCanvas", "WebGLProgram", "WebGLShader", "WebGLBuffer",
+            "WebGLTexture", "WebGLFramebuffer", "WebGLRenderbuffer", "WebGLVertexArray",
+            "WebGLUniformLocation", "WebGLConsts", "WebGLScene", "Camera", "Transform",
+            "Task", "Action", "Func", "EventCallback", "Span", "ReadOnlySpan", "Matrix4x4", "Vector3"
+        };
+
+        foreach (string keyword in keywords)
+        {
+            code = System.Text.RegularExpressions.Regex.Replace
+            (
+                code,
+                $@"\b{keyword}\b",
+                $"<span class=\"keyword\">{keyword}</span>"
+            );
+        }
+
+        foreach (string type in types)
+        {
+            code = System.Text.RegularExpressions.Regex.Replace
+            (
+                code,
+                $@"\b{type}\b",
+                $"<span class=\"type\">{type}</span>"
+            );
+        }
+
+        // Strings
+        code = System.Text.RegularExpressions.Regex.Replace
+        (
+            code,
+            @"&quot;[^&]*?&quot;",
+            m => $"<span class=\"string\">{m.Value}</span>"
+        );
+
+        // Comments
+        code = System.Text.RegularExpressions.Regex.Replace
+        (
+            code,
+            @"//.*$",
+            m => $"<span class=\"comment\">{m.Value}</span>",
+            System.Text.RegularExpressions.RegexOptions.Multiline
+        );
+
+        // Numbers
+        code = System.Text.RegularExpressions.Regex.Replace
+        (
+            code,
+            @"\b(\d+\.?\d*f?)\b",
+            m => $"<span class=\"number\">{m.Value}</span>"
+        );
+
+        return code;
+    }
+
+    private static string HighlightGLSL(string code)
+    {
+        string[] keywords = new[] 
+        {
+            "attribute", "uniform", "varying", "in", "out", "inout",
+            "void", "float", "int", "bool", "vec2", "vec3", "vec4",
+            "mat2", "mat3", "mat4", "sampler2D", "samplerCube",
+            "if", "else", "for", "while", "do", "return", "discard",
+            "const", "precision", "highp", "mediump", "lowp",
+            "struct", "layout", "location", "binding"
+        };
+
+        string[] functions = new[]
+        {
+            "texture", "normalize", "dot", "cross", "length", "distance",
+            "mix", "clamp", "min", "max", "abs", "sign", "floor", "ceil",
+            "fract", "mod", "pow", "exp", "log", "sqrt", "sin", "cos", "tan"
+        };
+
+        foreach (string keyword in keywords)
+        {
+            code = System.Text.RegularExpressions.Regex.Replace
+            (
+                code,
+                $@"\b{keyword}\b",
+                $"<span class=\"keyword\">{keyword}</span>"
+            );
+        }
+
+        foreach (string func in functions)
+        {
+            code = System.Text.RegularExpressions.Regex.Replace
+            (
+                code,
+                $@"\b{func}\b",
+                $"<span class=\"function\">{func}</span>"
+            );
+        }
+
+        // Comments
+        code = System.Text.RegularExpressions.Regex.Replace
+        (
+            code,
+            @"//.*$",
+            m => $"<span class=\"comment\">{m.Value}</span>",
+            System.Text.RegularExpressions.RegexOptions.Multiline
+        );
+
+        // Numbers
+        code = System.Text.RegularExpressions.Regex.Replace
+        (
+            code,
+            @"\b(\d+\.?\d*f?)\b",
+            m => $"<span class=\"number\">{m.Value}</span>"
+        );
+
+        return code;
+    }
+
+    private async Task CopyToClipboard()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Code.Trim());
+            _copyButtonText = "Copied";
+            StateHasChanged();
+            await Task.Delay(2000);
+            _copyButtonText = "Copy";
+            StateHasChanged();
+        }
+        catch
+        {
+            _copyButtonText = "Failed";
+            StateHasChanged();
+        }
+    }
+}

@@ -1,0 +1,47 @@
+﻿@page "/bar-charts"
+
+<PageTitle>WebGLazor - 2D Bar Charts</PageTitle>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1 class="page-title">2D Bar Charts</h1>
+        <p class="page-subtitle">Interactive 2D visualization with tooltips and selection.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-title">Interactive Chart</div>
+        <div class="demo-controls-row">
+            <button class="btn btn-primary" @onclick="RegenerateData">Regenerate data</button>
+            <span style="font-weight: bold;">@_selectedBarInfo</span>
+        </div>
+
+        <div class="demo-canvas-wrapper" style="position: relative;" 
+             @onmousemove="OnMouseMove" 
+             @onmouseleave="OnMouseLeave" 
+             @onclick="OnClick"
+             @ontouchstart="OnTouchStart"
+             @ontouchmove="OnTouchMove"
+             @ontouchend="OnTouchEnd">
+            <WebGLCanvas @ref="_canvas"
+                         Id="bar-chart-canvas"
+                         Width="800"
+                         Height="400"
+                         OnContextCreated="OnContextCreated"
+                         style="cursor: crosshair;" />
+            
+            @if (_tooltipVisible)
+            {
+                <div class="chart-tooltip" style="left: @(_tooltipX.ToString("F2", CultureInfo.InvariantCulture))px; top: @(_tooltipY.ToString("F2", CultureInfo.InvariantCulture))px;">
+                    @_tooltipText
+                </div>
+            }
+        </div>
+        
+        <p class="demo-hint">Hover over bars to see values. Click on a bar to select it.</p>
+    </div>
+    
+    <div class="card">
+        <div class="card-title">Source Code</div>
+        <CodeSnippetComponent Language="C#" Code="@_codeSnippet" />
+    </div>
+</div>

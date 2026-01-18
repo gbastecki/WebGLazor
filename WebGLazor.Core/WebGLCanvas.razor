@@ -1,0 +1,267 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@using WebGLazor
+@namespace WebGLazor
+@implements IAsyncDisposable
+
+<canvas @ref="CanvasRef"
+        id="@Id"
+        width="@Width"
+        height="@Height"
+        style="@Style"
+        @attributes="AdditionalAttributes"
+        @onmousemove="HandleMouseMove"
+        @onmousemove:preventDefault="PreventDefaultOnMouseMove"
+        @onmousemove:stopPropagation="StopPropagationOnMouseMove"
+        @onmousedown="HandleMouseDown"
+        @onmousedown:preventDefault="PreventDefaultOnMouseDown"
+        @onmousedown:stopPropagation="StopPropagationOnMouseDown"
+        @onmouseup="HandleMouseUp"
+        @onmouseup:preventDefault="PreventDefaultOnMouseUp"
+        @onmouseup:stopPropagation="StopPropagationOnMouseUp"
+        @onclick="HandleClick"
+        @onclick:preventDefault="PreventDefaultOnClick"
+        @onclick:stopPropagation="StopPropagationOnClick"
+        @ondblclick="HandleDoubleClick"
+        @ondblclick:preventDefault="PreventDefaultOnDoubleClick"
+        @ondblclick:stopPropagation="StopPropagationOnDoubleClick"
+        @onmouseenter="HandleMouseEnter"
+        @onmouseleave="HandleMouseLeave"
+        @onmouseover="HandleMouseOver"
+        @onmouseout="HandleMouseOut"
+        @onwheel="HandleWheel"
+        @onwheel:preventDefault="PreventDefaultOnWheel"
+        @onwheel:stopPropagation="StopPropagationOnWheel"
+        @oncontextmenu="HandleContextMenu"
+        @oncontextmenu:preventDefault="PreventDefaultOnContextMenu"
+        @oncontextmenu:stopPropagation="StopPropagationOnContextMenu"
+        @onkeydown="HandleKeyDown"
+        @onkeydown:preventDefault="PreventDefaultOnKeyDown"
+        @onkeydown:stopPropagation="StopPropagationOnKeyDown"
+        @onkeyup="HandleKeyUp"
+        @onkeyup:preventDefault="PreventDefaultOnKeyUp"
+        @onkeyup:stopPropagation="StopPropagationOnKeyUp"
+        @onkeypress="HandleKeyPress"
+        @onkeypress:preventDefault="PreventDefaultOnKeyPress"
+        @onkeypress:stopPropagation="StopPropagationOnKeyPress"
+        @ontouchstart="HandleTouchStart"
+        @ontouchstart:preventDefault="PreventDefaultOnTouchStart"
+        @ontouchstart:stopPropagation="StopPropagationOnTouchStart"
+        @ontouchend="HandleTouchEnd"
+        @ontouchend:preventDefault="PreventDefaultOnTouchEnd"
+        @ontouchend:stopPropagation="StopPropagationOnTouchEnd"
+        @ontouchmove="HandleTouchMove"
+        @ontouchmove:preventDefault="PreventDefaultOnTouchMove"
+        @ontouchmove:stopPropagation="StopPropagationOnTouchMove"
+        @ontouchcancel="HandleTouchCancel"
+        @onpointerdown="HandlePointerDown"
+        @onpointerdown:preventDefault="PreventDefaultOnPointerDown"
+        @onpointerdown:stopPropagation="StopPropagationOnPointerDown"
+        @onpointerup="HandlePointerUp"
+        @onpointerup:preventDefault="PreventDefaultOnPointerUp"
+        @onpointerup:stopPropagation="StopPropagationOnPointerUp"
+        @onpointermove="HandlePointerMove"
+        @onpointermove:preventDefault="PreventDefaultOnPointerMove"
+        @onpointermove:stopPropagation="StopPropagationOnPointerMove"
+        @onpointerenter="HandlePointerEnter"
+        @onpointerleave="HandlePointerLeave"
+        @onpointercancel="HandlePointerCancel"
+        @onpointerout="HandlePointerOut"
+        @onpointerover="HandlePointerOver"
+        @ongotpointercapture="HandleGotPointerCapture"
+        @onlostpointercapture="HandleLostPointerCapture"
+        @onfocus="HandleFocus"
+        @onblur="HandleBlur"
+        @onfocusin="HandleFocusIn"
+        @onfocusout="HandleFocusOut"
+        @ondrag="HandleDrag"
+        @ondrag:preventDefault="PreventDefaultOnDrag"
+        @ondrag:stopPropagation="StopPropagationOnDrag"
+        @ondragend="HandleDragEnd"
+        @ondragenter="HandleDragEnter"
+        @ondragleave="HandleDragLeave"
+        @ondragover="HandleDragOver"
+        @ondragover:preventDefault="PreventDefaultOnDragOver"
+        @ondragover:stopPropagation="StopPropagationOnDragOver"
+        @ondragstart="HandleDragStart"
+        @ondrop="HandleDrop"
+        @ondrop:preventDefault="PreventDefaultOnDrop"
+        @ondrop:stopPropagation="StopPropagationOnDrop"></canvas>
+
+@code {
+    // Core Parameters
+    [Parameter] public string Id { get; set; } = Guid.NewGuid().ToString();
+    [Parameter] public int Width { get; set; } = 800;
+    [Parameter] public int Height { get; set; } = 600;
+    [Parameter] public string Style { get; set; } = "";
+
+    // Event behavior modifiers - preventDefault
+    [Parameter] public bool PreventDefaultOnMouseMove { get; set; }
+    [Parameter] public bool PreventDefaultOnMouseDown { get; set; }
+    [Parameter] public bool PreventDefaultOnMouseUp { get; set; }
+    [Parameter] public bool PreventDefaultOnClick { get; set; }
+    [Parameter] public bool PreventDefaultOnDoubleClick { get; set; }
+    [Parameter] public bool PreventDefaultOnWheel { get; set; }
+    [Parameter] public bool PreventDefaultOnContextMenu { get; set; }
+    [Parameter] public bool PreventDefaultOnKeyDown { get; set; }
+    [Parameter] public bool PreventDefaultOnKeyUp { get; set; }
+    [Parameter] public bool PreventDefaultOnKeyPress { get; set; }
+    [Parameter] public bool PreventDefaultOnTouchStart { get; set; }
+    [Parameter] public bool PreventDefaultOnTouchEnd { get; set; }
+    [Parameter] public bool PreventDefaultOnTouchMove { get; set; }
+    [Parameter] public bool PreventDefaultOnPointerDown { get; set; }
+    [Parameter] public bool PreventDefaultOnPointerUp { get; set; }
+    [Parameter] public bool PreventDefaultOnPointerMove { get; set; }
+    [Parameter] public bool PreventDefaultOnDrag { get; set; }
+    [Parameter] public bool PreventDefaultOnDragOver { get; set; }
+    [Parameter] public bool PreventDefaultOnDrop { get; set; }
+
+    // Event behavior modifiers - stopPropagation
+    [Parameter] public bool StopPropagationOnMouseMove { get; set; }
+    [Parameter] public bool StopPropagationOnMouseDown { get; set; }
+    [Parameter] public bool StopPropagationOnMouseUp { get; set; }
+    [Parameter] public bool StopPropagationOnClick { get; set; }
+    [Parameter] public bool StopPropagationOnDoubleClick { get; set; }
+    [Parameter] public bool StopPropagationOnWheel { get; set; }
+    [Parameter] public bool StopPropagationOnContextMenu { get; set; }
+    [Parameter] public bool StopPropagationOnKeyDown { get; set; }
+    [Parameter] public bool StopPropagationOnKeyUp { get; set; }
+    [Parameter] public bool StopPropagationOnKeyPress { get; set; }
+    [Parameter] public bool StopPropagationOnTouchStart { get; set; }
+    [Parameter] public bool StopPropagationOnTouchEnd { get; set; }
+    [Parameter] public bool StopPropagationOnTouchMove { get; set; }
+    [Parameter] public bool StopPropagationOnPointerDown { get; set; }
+    [Parameter] public bool StopPropagationOnPointerUp { get; set; }
+    [Parameter] public bool StopPropagationOnPointerMove { get; set; }
+    [Parameter] public bool StopPropagationOnDrag { get; set; }
+    [Parameter] public bool StopPropagationOnDragOver { get; set; }
+    [Parameter] public bool StopPropagationOnDrop { get; set; }
+
+    // Additional HTML attributes
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    // Context created callback
+    [Parameter] public EventCallback<WebGLContext> OnContextCreated { get; set; }
+
+    // Mouse events
+    [Parameter] public EventCallback<MouseEventArgs> OnCanvasMouseMove { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnCanvasMouseDown { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnCanvasMouseUp { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnCanvasClick { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnCanvasDoubleClick { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnCanvasMouseEnter { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnCanvasMouseLeave { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnCanvasMouseOver { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnCanvasMouseOut { get; set; }
+    [Parameter] public EventCallback<WheelEventArgs> OnCanvasWheel { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnCanvasContextMenu { get; set; }
+
+    // Keyboard events
+    [Parameter] public EventCallback<KeyboardEventArgs> OnCanvasKeyDown { get; set; }
+    [Parameter] public EventCallback<KeyboardEventArgs> OnCanvasKeyUp { get; set; }
+    [Parameter] public EventCallback<KeyboardEventArgs> OnCanvasKeyPress { get; set; }
+
+    // Touch events
+    [Parameter] public EventCallback<TouchEventArgs> OnCanvasTouchStart { get; set; }
+    [Parameter] public EventCallback<TouchEventArgs> OnCanvasTouchEnd { get; set; }
+    [Parameter] public EventCallback<TouchEventArgs> OnCanvasTouchMove { get; set; }
+    [Parameter] public EventCallback<TouchEventArgs> OnCanvasTouchCancel { get; set; }
+
+    // Pointer events
+    [Parameter] public EventCallback<PointerEventArgs> OnCanvasPointerDown { get; set; }
+    [Parameter] public EventCallback<PointerEventArgs> OnCanvasPointerUp { get; set; }
+    [Parameter] public EventCallback<PointerEventArgs> OnCanvasPointerMove { get; set; }
+    [Parameter] public EventCallback<PointerEventArgs> OnCanvasPointerEnter { get; set; }
+    [Parameter] public EventCallback<PointerEventArgs> OnCanvasPointerLeave { get; set; }
+    [Parameter] public EventCallback<PointerEventArgs> OnCanvasPointerCancel { get; set; }
+    [Parameter] public EventCallback<PointerEventArgs> OnCanvasPointerOut { get; set; }
+    [Parameter] public EventCallback<PointerEventArgs> OnCanvasPointerOver { get; set; }
+    [Parameter] public EventCallback<PointerEventArgs> OnCanvasGotPointerCapture { get; set; }
+    [Parameter] public EventCallback<PointerEventArgs> OnCanvasLostPointerCapture { get; set; }
+
+    // Focus events
+    [Parameter] public EventCallback<FocusEventArgs> OnCanvasFocus { get; set; }
+    [Parameter] public EventCallback<FocusEventArgs> OnCanvasBlur { get; set; }
+    [Parameter] public EventCallback<FocusEventArgs> OnCanvasFocusIn { get; set; }
+    [Parameter] public EventCallback<FocusEventArgs> OnCanvasFocusOut { get; set; }
+
+    // Drag events
+    [Parameter] public EventCallback<DragEventArgs> OnCanvasDrag { get; set; }
+    [Parameter] public EventCallback<DragEventArgs> OnCanvasDragEnd { get; set; }
+    [Parameter] public EventCallback<DragEventArgs> OnCanvasDragEnter { get; set; }
+    [Parameter] public EventCallback<DragEventArgs> OnCanvasDragLeave { get; set; }
+    [Parameter] public EventCallback<DragEventArgs> OnCanvasDragOver { get; set; }
+    [Parameter] public EventCallback<DragEventArgs> OnCanvasDragStart { get; set; }
+    [Parameter] public EventCallback<DragEventArgs> OnCanvasDrop { get; set; }
+
+    public ElementReference CanvasRef;
+    public WebGLContext? Context;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Context = new WebGLContext();
+            await Context.InitializeAsync(Id);
+            await OnContextCreated.InvokeAsync(Context);
+        }
+    }
+
+    // Mouse event handlers
+    private Task HandleMouseMove(MouseEventArgs e) => OnCanvasMouseMove.HasDelegate ? OnCanvasMouseMove.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleMouseDown(MouseEventArgs e) => OnCanvasMouseDown.HasDelegate ? OnCanvasMouseDown.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleMouseUp(MouseEventArgs e) => OnCanvasMouseUp.HasDelegate ? OnCanvasMouseUp.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleClick(MouseEventArgs e) => OnCanvasClick.HasDelegate ? OnCanvasClick.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleDoubleClick(MouseEventArgs e) => OnCanvasDoubleClick.HasDelegate ? OnCanvasDoubleClick.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleMouseEnter(MouseEventArgs e) => OnCanvasMouseEnter.HasDelegate ? OnCanvasMouseEnter.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleMouseLeave(MouseEventArgs e) => OnCanvasMouseLeave.HasDelegate ? OnCanvasMouseLeave.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleMouseOver(MouseEventArgs e) => OnCanvasMouseOver.HasDelegate ? OnCanvasMouseOver.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleMouseOut(MouseEventArgs e) => OnCanvasMouseOut.HasDelegate ? OnCanvasMouseOut.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleWheel(WheelEventArgs e) => OnCanvasWheel.HasDelegate ? OnCanvasWheel.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleContextMenu(MouseEventArgs e) => OnCanvasContextMenu.HasDelegate ? OnCanvasContextMenu.InvokeAsync(e) : Task.CompletedTask;
+
+    // Keyboard event handlers
+    private Task HandleKeyDown(KeyboardEventArgs e) => OnCanvasKeyDown.HasDelegate ? OnCanvasKeyDown.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleKeyUp(KeyboardEventArgs e) => OnCanvasKeyUp.HasDelegate ? OnCanvasKeyUp.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleKeyPress(KeyboardEventArgs e) => OnCanvasKeyPress.HasDelegate ? OnCanvasKeyPress.InvokeAsync(e) : Task.CompletedTask;
+
+    // Touch event handlers
+    private Task HandleTouchStart(TouchEventArgs e) => OnCanvasTouchStart.HasDelegate ? OnCanvasTouchStart.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleTouchEnd(TouchEventArgs e) => OnCanvasTouchEnd.HasDelegate ? OnCanvasTouchEnd.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleTouchMove(TouchEventArgs e) => OnCanvasTouchMove.HasDelegate ? OnCanvasTouchMove.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleTouchCancel(TouchEventArgs e) => OnCanvasTouchCancel.HasDelegate ? OnCanvasTouchCancel.InvokeAsync(e) : Task.CompletedTask;
+
+    // Pointer event handlers
+    private Task HandlePointerDown(PointerEventArgs e) => OnCanvasPointerDown.HasDelegate ? OnCanvasPointerDown.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandlePointerUp(PointerEventArgs e) => OnCanvasPointerUp.HasDelegate ? OnCanvasPointerUp.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandlePointerMove(PointerEventArgs e) => OnCanvasPointerMove.HasDelegate ? OnCanvasPointerMove.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandlePointerEnter(PointerEventArgs e) => OnCanvasPointerEnter.HasDelegate ? OnCanvasPointerEnter.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandlePointerLeave(PointerEventArgs e) => OnCanvasPointerLeave.HasDelegate ? OnCanvasPointerLeave.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandlePointerCancel(PointerEventArgs e) => OnCanvasPointerCancel.HasDelegate ? OnCanvasPointerCancel.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandlePointerOut(PointerEventArgs e) => OnCanvasPointerOut.HasDelegate ? OnCanvasPointerOut.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandlePointerOver(PointerEventArgs e) => OnCanvasPointerOver.HasDelegate ? OnCanvasPointerOver.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleGotPointerCapture(PointerEventArgs e) => OnCanvasGotPointerCapture.HasDelegate ? OnCanvasGotPointerCapture.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleLostPointerCapture(PointerEventArgs e) => OnCanvasLostPointerCapture.HasDelegate ? OnCanvasLostPointerCapture.InvokeAsync(e) : Task.CompletedTask;
+
+    // Focus event handlers
+    private Task HandleFocus(FocusEventArgs e) => OnCanvasFocus.HasDelegate ? OnCanvasFocus.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleBlur(FocusEventArgs e) => OnCanvasBlur.HasDelegate ? OnCanvasBlur.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleFocusIn(FocusEventArgs e) => OnCanvasFocusIn.HasDelegate ? OnCanvasFocusIn.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleFocusOut(FocusEventArgs e) => OnCanvasFocusOut.HasDelegate ? OnCanvasFocusOut.InvokeAsync(e) : Task.CompletedTask;
+
+    // Drag event handlers
+    private Task HandleDrag(DragEventArgs e) => OnCanvasDrag.HasDelegate ? OnCanvasDrag.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleDragEnd(DragEventArgs e) => OnCanvasDragEnd.HasDelegate ? OnCanvasDragEnd.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleDragEnter(DragEventArgs e) => OnCanvasDragEnter.HasDelegate ? OnCanvasDragEnter.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleDragLeave(DragEventArgs e) => OnCanvasDragLeave.HasDelegate ? OnCanvasDragLeave.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleDragOver(DragEventArgs e) => OnCanvasDragOver.HasDelegate ? OnCanvasDragOver.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleDragStart(DragEventArgs e) => OnCanvasDragStart.HasDelegate ? OnCanvasDragStart.InvokeAsync(e) : Task.CompletedTask;
+    private Task HandleDrop(DragEventArgs e) => OnCanvasDrop.HasDelegate ? OnCanvasDrop.InvokeAsync(e) : Task.CompletedTask;
+
+    public ValueTask DisposeAsync()
+    {
+        GC.SuppressFinalize(this);
+        Context?.Dispose();
+        return ValueTask.CompletedTask;
+    }
+}

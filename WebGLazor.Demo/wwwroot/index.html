@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebGLazor - High-Performance WebGL 2.0 for Blazor</title>
+
+    <meta name="title" content="WebGLazor Demo" />
+    <meta name="description" content="WebGLazor provides complete WebGL 2.0 bindings for Blazor WebAssembly with zero-copy data transfer for high-performance graphics." />
+    <meta name="keywords" content="WebGL, Blazor, WebAssembly, 3D, 2D, Graphics, OpenGL, C#, .NET" />
+    <meta name="author" content="Grzegorz Bastecki" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+
+    <meta name="theme-color" content="#ffffff" />
+
+    <base href="/" />
+    <link rel="stylesheet" href="css/app.css" />
+</head>
+
+<body>
+    <div id="app">
+        <div class="loading-container">
+            <!-- Grid background -->
+            <div class="loading-grid"></div>
+
+            <!-- Floating particles -->
+            <div class="loading-particles">
+                <div class="loading-particle"></div>
+                <div class="loading-particle"></div>
+                <div class="loading-particle"></div>
+                <div class="loading-particle"></div>
+                <div class="loading-particle"></div>
+                <div class="loading-particle"></div>
+            </div>
+
+            <!-- 3D Rotating Cube -->
+            <div class="loading-scene">
+                <div class="loading-cube">
+                    <div class="loading-cube-face loading-cube-face--front"></div>
+                    <div class="loading-cube-face loading-cube-face--back"></div>
+                    <div class="loading-cube-face loading-cube-face--right"></div>
+                    <div class="loading-cube-face loading-cube-face--left"></div>
+                    <div class="loading-cube-face loading-cube-face--top"></div>
+                    <div class="loading-cube-face loading-cube-face--bottom"></div>
+                </div>
+            </div>
+
+            <!-- Branding -->
+            <div class="loading-brand">
+                <h1 class="loading-title">WebGLazor</h1>
+                <p class="loading-tagline">WebGL 2.0 library for Blazor</p>
+            </div>
+
+            <!-- Progress -->
+            <div class="loading-progress">
+                <div class="loading-progress-bar">
+                    <div class="loading-progress-fill"></div>
+                </div>
+                <div class="loading-status">Loading WebAssembly...</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>

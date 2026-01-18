@@ -1,0 +1,75 @@
+﻿@page "/"
+
+<PageTitle>WebGLazor - Quick Start</PageTitle>
+
+<div class="page-container">
+    <div class="main">
+        <h1 class="main-title">WebGLazor</h1>
+        <p class="main-subtitle">
+            High-performance WebGL 2.0 bindings for Blazor WebAssembly with zero-copy data transfer.
+        </p>
+        <div class="main-actions">
+            <a href="api-reference" class="btn btn-primary">API Reference</a>
+            <a href="/bar-charts" class="btn btn-secondary">View Demos</a>
+        </div>
+    </div>
+
+    <div class="install-block">
+        <div class="install-title">Installation</div>
+        <CodeSnippetComponent Language="shell" Code="dotnet add package WebGLazor" />
+    </div>
+
+    <h2 class="section-title">Features</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">2.0</div>
+            <h3 class="feature-title">Complete WebGL 2.0</h3>
+            <p class="feature-description">
+                Full WebGL 2.0 API coverage.
+            </p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">0</div>
+            <h3 class="feature-title">Zero-Copy Transfer</h3>
+            <p class="feature-description">
+                Direct memory access between .NET and JavaScript for maximum performance.
+            </p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">C#</div>
+            <h3 class="feature-title">Type-Safe API</h3>
+            <p class="feature-description">
+                Strongly-typed wrappers for all WebGL objects with proper 
+                .NET patterns and IDisposable support.
+            </p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">AOT</div>
+            <h3 class="feature-title">AOT & Trimming</h3>
+            <p class="feature-description">
+                AOT-compatible and trimming safe.
+            </p>
+        </div>
+    </div>
+
+    <h2 class="section-title">Quick Start</h2>
+    <p class="section-description">
+        Add the WebGLCanvas component to your page and handle the context creation event.
+    </p>
+
+    <div class="card">
+        <h3 class="card-title">Basic rainbow triangle</h3>
+        <div class="demo-row">
+            <div class="demo-canvas-wrapper">
+                <WebGLCanvas @ref="_canvas"
+                             Id="quickstart-canvas"
+                             Width="400"
+                             Height="300"
+                             OnContextCreated="OnContextCreated" />
+            </div>
+        </div>
+        <div class="demo-row">
+            <CodeSnippetComponent Language="C#" Code="@_basicCode" />
+        </div>
+    </div>
+</div>
