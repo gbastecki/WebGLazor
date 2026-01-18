@@ -1,0 +1,228 @@
+﻿/* Loading animation styles */
+
+.loading-container {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    gap: 2rem;
+}
+
+/* 3D Cube Animation */
+.loading-scene {
+    width: 120px;
+    height: 120px;
+    perspective: 600px;
+}
+
+.loading-cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: cube-rotate 3s ease-in-out infinite;
+}
+
+.loading-cube-face {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    left: 20px;
+    top: 20px;
+    border: 2px solid rgba(59, 130, 246, 0.6);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(16, 185, 129, 0.15) 100%);
+    backdrop-filter: blur(4px);
+}
+
+.loading-cube-face--front {
+    transform: translateZ(40px);
+}
+
+.loading-cube-face--back {
+    transform: rotateY(180deg) translateZ(40px);
+}
+
+.loading-cube-face--right {
+    transform: rotateY(90deg) translateZ(40px);
+}
+
+.loading-cube-face--left {
+    transform: rotateY(-90deg) translateZ(40px);
+}
+
+.loading-cube-face--top {
+    transform: rotateX(90deg) translateZ(40px);
+}
+
+.loading-cube-face--bottom {
+    transform: rotateX(-90deg) translateZ(40px);
+}
+
+@keyframes cube-rotate {
+
+    0%, 100% {
+        transform: rotateX(-20deg) rotateY(0deg);
+    }
+
+    25% {
+        transform: rotateX(-20deg) rotateY(90deg);
+    }
+
+    50% {
+        transform: rotateX(-20deg) rotateY(180deg);
+    }
+
+    75% {
+        transform: rotateX(-20deg) rotateY(270deg);
+    }
+}
+
+/* Branding */
+.loading-brand {
+    text-align: center;
+}
+
+.loading-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.loading-tagline {
+    font-size: 1rem;
+    color: #64748b;
+    margin-top: 0.5rem;
+    font-weight: 400;
+}
+
+/* Progress Bar */
+.loading-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.loading-progress-bar {
+    width: 240px;
+    height: 4px;
+    background: rgba(59, 130, 246, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loading-progress-fill {
+    height: 100%;
+    width: 40%;
+    background: linear-gradient(90deg, #3b82f6, #10b981);
+    border-radius: 2px;
+    animation: progress-slide 1.8s ease-in-out infinite;
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+}
+
+@keyframes progress-slide {
+    0% {
+        transform: translateX(-100%);
+        width: 40%;
+    }
+
+    50% {
+        width: 60%;
+    }
+
+    100% {
+        transform: translateX(350%);
+        width: 40%;
+    }
+}
+
+.loading-status {
+    font-size: 0.875rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* Floating particles effect */
+.loading-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.loading-particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: linear-gradient(135deg, #3b82f6, #10b981);
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: particle-float 4s ease-in-out infinite;
+}
+
+    .loading-particle:nth-child(1) {
+        left: 10%;
+        top: 20%;
+        animation-delay: 0s;
+    }
+
+    .loading-particle:nth-child(2) {
+        left: 80%;
+        top: 30%;
+        animation-delay: 0.5s;
+    }
+
+    .loading-particle:nth-child(3) {
+        left: 20%;
+        top: 70%;
+        animation-delay: 1s;
+    }
+
+    .loading-particle:nth-child(4) {
+        left: 70%;
+        top: 80%;
+        animation-delay: 1.5s;
+    }
+
+    .loading-particle:nth-child(5) {
+        left: 50%;
+        top: 15%;
+        animation-delay: 2s;
+    }
+
+    .loading-particle:nth-child(6) {
+        left: 90%;
+        top: 60%;
+        animation-delay: 2.5s;
+    }
+
+@keyframes particle-float {
+
+    0%, 100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: translateY(-20px) scale(1.2);
+        opacity: 0.6;
+    }
+}
+
+/* Grid lines */
+.loading-grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+}
