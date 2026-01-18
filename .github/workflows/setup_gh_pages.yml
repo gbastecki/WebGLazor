@@ -28,6 +28,9 @@ jobs:
     - name: Change base-tag in index.html from / to WebGLazor
       run: sed -i 's/<base href="\/" \/>/<base href="\/WebGLazor\/" \/>/g' ${{ env.PUBLISH_DIR }}/index.html
   
+    - name: Fix absolute paths in JS/JSON/HTML files
+      run: find ${{ env.PUBLISH_DIR }} -type f \( -name "*.js" -o -name "*.html" -o -name "*.json" \) -print0 | xargs -0 sed -i 's|/_content/|_content/|g'
+
     - name: copy index.html to 404.html
       run: cp ${{ env.PUBLISH_DIR }}/index.html ${{ env.PUBLISH_DIR }}/404.html
       
