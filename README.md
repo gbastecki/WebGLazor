@@ -1,9 +1,13 @@
 ﻿# WebGLazor
 ![https://github.com/github/docs/actions/workflows/main.yml](https://github.com/gbastecki/WebGLazor/actions/workflows/build.yml/badge.svg)
 [![GitHub](https://img.shields.io/github/license/gbastecki/WebGLazor?color=0000a4&style=plastic)](https://github.com/gbastecki/WebGLazor/blob/main/LICENSE)
+[![NuGet version](https://img.shields.io/nuget/v/WebGLazor?color=6a00d5&label=nuget%20version&logo=nuget&style=plastic)](https://www.nuget.org/packages/WebGLazor/)
+[![NuGet downloads](https://img.shields.io/nuget/dt/WebGLazor?color=6a00d5&label=nuget%20downloads&logo=nuget&style=plastic)](https://www.nuget.org/packages/WebGLazor/)
 
 **WebGLazor** is a high-performance, low-level WebGL 2.0 binding library for Blazor WebAssembly. 
 It provides a direct, zero-copy interface to the pure WebGL 2.0 API, enabling developers to build hardware-accelerated 2D and 3D graphics applications completely in C#.
+
+[NuGet Package](https://www.nuget.org/packages/WebGLazor) | [Live Demo](https://gbastecki.github.io/WebGLazor/)
 
 ---
 
