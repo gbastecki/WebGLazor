@@ -11,9 +11,9 @@ It provides a direct, zero-copy interface to the pure WebGL 2.0 API, enabling de
 
 - [Key Features](#key-features)
     - [Maximum Performance with Zero-Copy](#maximum-performance-with-zero-copy)
-    - [Full WebGL 2.0 API Coverage](#full-webgl-2.0-api-coverage)
+    - [Full WebGL 2.0 API Coverage](#full-webgl-20-api-coverage)
     - [Developer Friendly](#developer-friendly)
-    - [AOT & Trimming](#aot-trimming)
+    - [AOT & Trimming](#aot--trimming)
 - [API Reference](#api-reference)
 - [Package requirements](#package-requirements)
 - [Installation](#installation)
@@ -52,7 +52,7 @@ WebGLazor exposes the **entire** WebGL 2.0 standard.
 For a complete and detailed reference of all available classes, methods, and constants, please read the **[API Reference Wiki](WIKI.MD)**.
 
 - **[WebGLCanvas Component](WIKI.MD#webglcanvas-component)**: Setup and event handling.
-- **[WebGL 2.0 Implementation](WIKI.MD#webgl-2.0-api)**: Detailed method signatures and usage.
+- **[WebGL 2.0 Implementation](WIKI.MD#webgl-20-api)**: Detailed method signatures and usage.
 - **[Constants](WIKI.MD#constants)**: Enumeration of all WebGL 2.0 constants.
 
 ---
