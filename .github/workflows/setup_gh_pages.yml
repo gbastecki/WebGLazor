@@ -17,9 +17,6 @@ jobs:
       with:
         dotnet-version: 10.0.x
 
-    - name: Update Absolute to Relative paths for GH Pages in c#
-      run: find . -name "*.cs" -print0 | xargs -0 sed -i 's|"/_content/|"/WebGLazor/_content/|g'
-
     - name: Restore dependencies
       working-directory: ./WebGLazor.Demo
       run: dotnet restore WebGLazor.Demo.csproj
